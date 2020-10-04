@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Login</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script  src="js/jquery-3.1.1.min.js"></script>
+    
+</head>
+<body onload="pegaCSV(this)" >
+    <div class="container">
+        <div class="content first-content">
+            <div class="first-column">
+                <div id="CSVsaida">
+                    
+                </div>
+                <h2 class="title title-primary">Bem Vindo!</h2>
+                <p class="description description-primary">Faça login para</p>
+                <p class="description description-primary">ver a sua cautela</p>
+                <button id="signin" class="btn btn-primary"> Área Administrativa</button>
+            
+            </div>    
+           
+            <div class="second-column">
+            <div>
+            <img src="./images/logo.png">
+            </div>
+                <h2 class="title title-second">Área Pública</h2>
+                
+                <p class="description description-second">Digite o usuário e a senha</p>
+                <form   class="form" action="./login2/valida.php" method="get">
+               <label > Posto/Grad</label>
+                <div id="dados21"></div>
+                    <label class="label-input">
+                        
+                        <input id="ng" type="text" onkeyup="buscar()" name="customer['nomeg']" placeholder="Nome de Guerra">
+                    </label>
+                    
+                                       
+                    <label class="label-input">
+                      
+                        <input type="password"  name="customer['senha']" placeholder="Senha">
+                    </label>
+                    
+                    
+                    <button class="btn btn-second">Entrar</button>        
+                </form>
+            </div><!-- second column -->
+        </div><!-- first content -->
+        <div class="content second-content">
+            <div class="first-column">
+             
+                <h2 class="title title-primary">Bem Vindo!</h2>
+                <p class="description description-primary">Faça login para entrar</p>
+                <p class="description description-primary">na área administrativa</p>
+                <button id="signup" class="btn btn-primary">Área Privada</button>
+            </div>
+            <div class="second-column">
+            <div>
+            <img src="./images/logo.png">
+            </div>
+                <h2 class="title title-second">Área Administrativa</h2>
+               
+                <p class="description description-second">Entre com seu usuário e senha:</p>
+                <form class="form" action="validacao.php" method="post">
+                
+                
+                    <label class="label-input">
+                       
+                        <input type="text"  name="usuario" placeholder="Usuário">
+                    </label>
+                
+                    <label class="label-input">
+                       
+                        <input type="password" name="senha" placeholder="Senha">
+                    </label>
+                
+                    
+                    <button class="btn btn-second">Entrar</button>
+                </form>
+            </div><!-- second column -->
+        </div><!-- second-content -->
+    </div>
+    <script src="js/app.js"></script>
+</body>
+</html>
+
+<script>
+
+
+ function buscar(palavra)
+            {
+	
+                //O método $.ajax(); é o responsável pela requisição
+                $.ajax
+                        ({
+                            //Configurações
+                            type: 'POST',//Método que está sendo utilizado.
+                            dataType: 'html',//É o tipo de dado que a página vai retornar.
+                            url: 'login2/busca.php',//Indica a página que está sendo solicitada.
+                            //função que vai ser executada assim que a requisição for enviada
+                            beforeSend: function () {
+                                $("#dados1").val("Carregando...");
+                            },
+                            data: {palavra: palavra},//Dados para consulta
+                            //função que será executada quando a solicitação for finalizada.
+                            success: function (msg)
+                            {
+                                $("#dados21").html(msg);
+                            }
+                        });
+            }
+            
+            var valor;
+            $('#buscar').change(function () {
+            	valor = $("#buscar option:selected").val();
+            					        	
+                buscar(valor)
+            });
+
+             $('#ng').on('change keyup paste click',function () {
+            	
+				alert(dispo);    
+            	        	
+                
+            });
+        </script>
+        <script>
+var leitorDeCSV = new FileReader()
+window.onload = function init() {
+    leitorDeCSV.onload = leCSV;
+}
+    
+function pegaCSV(inputFile) {
+     var file = inputFile.files[0];
+     leitorDeCSV.readAsText(file);
+}
+function leCSV(evt) {
+
+  var fileArr = evt.target.result.split('\n');
+  var strDiv = '';
+  var strDiv1 = '';
+
+  for (var i=0; i<fileArr.length; i++) {
+      
+       var fileLine = fileArr[i].split(',');
+         
+                strDiv = fileLine[0].trim()+'<br>';
+                strDiv1 = fileLine[1].trim();
+      
+  }
+
+     
+      var CSVsaida = document.getElementById('CSVsaida');
+      CSVsaida.innerHTML = strDiv+strDiv1;
+}
+    
+</script>
